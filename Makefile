@@ -1,51 +1,91 @@
-# Compiler 
-CXX_APPLE := clang++
+# Compiler Clang 22.1.0 Apple is just Clang++
 CXX := /opt/homebrew/opt/llvm/bin/clang++
 
-# Flags
-CXXFLAGS := -std=c++20 -Wall -Wextra -g
-LDFLAGS := 
-
-# Directories
-SRCDIR := src
-OBJDIR := obj
-BUILDDIR := build
-
+# Project
+SRC_DIR := src
+OBJ_DIR := obj
+BUILD_DIR := build
+TARGET := main
 
 # Files
-SOURCES := $(wildcard $(SRCDIR)/*.cpp)
-OBJECTS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SOURCES))
-#DEPS := $(OBJECTS:.o=.d)	
+SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 
-TARGET := $(BUILDDIR)/main
-
-# Default target 
-all: $(TARGET)
+# Build type 
+# Default: debug
+CONFIG ?= debug
 
 
-# Link executable
-$(TARGET): $(OBJECTS) | $(BUILDDIR)
+# -------------------------------------------------
+# Config-specific settings
+# -------------------------------------------------
+ifeq ($(CONFIG),debug)
+	CXXFLAGS := -std=c++20 -Wall -Wextra -O0 -g
+	OBJ_SUBDIR := $(OBJ_DIR)/debug
+	BIN_SUBDIR := $(BUILD_DIR)/debug
+	LDFLAGS :=
+endif
+
+
+ifeq ($(CONFIG),release)
+	CXXFLAGS := -std=c++20 -Wall -Wextra -O3 -DNDEBUG
+	OBJ_SUBDIR := $(OBJ_DIR)/release
+	BIN_SUBDIR := $(BUILD_DIR)/release
+	LDFLAGS :=
+endif
+
+
+# -------------------------------------------------
+# Derived paths
+# -------------------------------------------------
+OBJECTS := $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_SUBDIR)/%.o, $(SOURCES))
+BIN := $(BIN_SUBDIR)/$(TARGET)
+
+
+# -------------------------------------------------
+# Default target
+# -------------------------------------------------
+all: $(BIN)
+
+
+# -------------------------------------------------
+# Debug / Release convenience targets
+# -------------------------------------------------
+debug:
+	$(MAKE) CONFIG=debug
+
+release:
+	$(MAKE) CONFIG=release
+
+
+# -------------------------------------------------
+# Link
+# -------------------------------------------------
+$(BIN): $(OBJECTS) | $(BIN_SUBDIR)
 	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
 
-# Compile source files → object files
-$(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
+# -------------------------------------------------
+# Compile
+# -------------------------------------------------
+$(OBJ_SUBDIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_SUBDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Directory targets
-$(OBJDIR) $(BUILDDIR):
+
+# -------------------------------------------------
+# Directory creation (order-only)
+# -------------------------------------------------
+$(OBJ_SUBDIR) $(BIN_SUBDIR):
 	mkdir -p $@
 
-#main: TestCpp/main.cpp
-#	$(CXX) $(CXXFLAGS) TestCpp/main.cpp -o main --version
 
-#main-apple: TestCpp/main.cpp
-#	$(CXX_APPLE) $(CXXFLAGS) TestCpp/main.cpp -o main --version
+# -------------------------------------------------
+# Cleanup
+# -------------------------------------------------
+clean:
+	rm -rf $(OBJ_DIR) $(BUILD_DIR)
+
 
 print-compiler:
 	@echo "CXX=$(CXX)"
 	@$(CXX) --version | head -n 1
-
-clean:
-	rm -rf $(OBJDIR) $(BUILDDIR) 
 
 .PHONY: all clean

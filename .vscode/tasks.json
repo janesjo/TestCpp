@@ -2,13 +2,21 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build (make)",
+      "label": "Build Debug (make)",
       "type": "shell",
       "command": "make",
+      "args": ["debug"],
       "group": {
         "kind": "build",
         "isDefault": true
       },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "Build Release (make)",
+      "type": "shell",
+      "command": "make",
+      "args": ["release"],
       "problemMatcher": ["$gcc"]
     },
     {

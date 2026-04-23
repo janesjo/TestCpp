@@ -2,17 +2,30 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Run my_app (LLDB)",
+      "name": "Debug main",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/main",
+      "program": "${workspaceFolder}/build/debug/main",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
       "environment": [],
       "externalConsole": false,
       "MIMode": "lldb",
-      "preLaunchTask": "Build (make)"
+      "preLaunchTask": "Build Debug (make)"
+    },
+    {
+      "name": "Release main",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/release/main",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "lldb",
+      "preLaunchTask": "Build Release (make)"
     }
   ]
 }
