@@ -1,23 +1,51 @@
-CXX ?= clang++
-CXXFLAGS ?= -std=c++17 -Wall -Wextra -pthread
+# Compiler 
+CXX_APPLE := clang++
+CXX := /opt/homebrew/opt/llvm/bin/clang++
 
-SRC_DIR := TestCpp
-SRC := $(wildcard $(SRC_DIR)/*.cpp)
-TARGET := TestCpp
-BUILD_DIR := bin
+# Flags
+CXXFLAGS := -std=c++20 -Wall -Wextra -g
+LDFLAGS := 
 
-.PHONY: all build run clean
+# Directories
+SRCDIR := src
+OBJDIR := obj
+BUILDDIR := build
 
-all: build
 
-build: $(BUILD_DIR)/$(TARGET)
+# Files
+SOURCES := $(wildcard $(SRCDIR)/*.cpp)
+OBJECTS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SOURCES))
+#DEPS := $(OBJECTS:.o=.d)	
 
-$(BUILD_DIR)/$(TARGET): $(SRC)
-	mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) $^ -o $@
+TARGET := $(BUILDDIR)/main
 
-run: build
-	./$(BUILD_DIR)/$(TARGET)
+# Default target 
+all: $(TARGET)
+
+
+# Link executable
+$(TARGET): $(OBJECTS) | $(BUILDDIR)
+	$(CXX) $(OBJECTS) -o $@ $(LDFLAGS)
+
+# Compile source files → object files
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Directory targets
+$(OBJDIR) $(BUILDDIR):
+	mkdir -p $@
+
+#main: TestCpp/main.cpp
+#	$(CXX) $(CXXFLAGS) TestCpp/main.cpp -o main --version
+
+#main-apple: TestCpp/main.cpp
+#	$(CXX_APPLE) $(CXXFLAGS) TestCpp/main.cpp -o main --version
+
+print-compiler:
+	@echo "CXX=$(CXX)"
+	@$(CXX) --version | head -n 1
 
 clean:
-	rm -rf $(BUILD_DIR)
+	rm -rf $(OBJDIR) $(BUILDDIR) 
+
+.PHONY: all clean
