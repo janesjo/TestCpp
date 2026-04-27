@@ -1,0 +1,126 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "homebrew-llvm",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "/opt/homebrew/opt/llvm/bin/clang++"
+      }
+    },
+    {
+      "name": "apple-clang",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "/usr/bin/c++"
+      }
+    },
+    {
+      "name": "vscode-debug",
+      "displayName": "VS Code Debug",
+      "description": "Debug build for VS Code CMake Tools.",
+      "inherits": "homebrew-llvm",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/cmake/vscode-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "ENABLE_ASAN": "ON"
+      }
+    },
+    {
+      "name": "vscode-release",
+      "displayName": "VS Code Release",
+      "description": "Release build for VS Code CMake Tools.",
+      "inherits": "homebrew-llvm",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/cmake/vscode-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "ENABLE_ASAN": "OFF"
+      }
+    },
+    {
+      "name": "vscode-debug-appleclang",
+      "displayName": "VS Code Debug AppleClang",
+      "description": "Debug build for VS Code CMake Tools using AppleClang.",
+      "inherits": "apple-clang",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/cmake/vscode-debug-appleclang",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "ENABLE_ASAN": "ON"
+      }
+    },
+    {
+      "name": "vscode-release-appleclang",
+      "displayName": "VS Code Release AppleClang",
+      "description": "Release build for VS Code CMake Tools using AppleClang.",
+      "inherits": "apple-clang",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/cmake/vscode-release-appleclang",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "ENABLE_ASAN": "OFF"
+      }
+    },
+    {
+      "name": "xcode",
+      "displayName": "Xcode",
+      "description": "Generate an Xcode project.",
+      "generator": "Xcode",
+      "binaryDir": "${sourceDir}/build/cmake/xcode",
+      "cacheVariables": {
+        "ENABLE_ASAN": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "vscode-debug",
+      "displayName": "Build VS Code Debug",
+      "configurePreset": "vscode-debug"
+    },
+    {
+      "name": "vscode-release",
+      "displayName": "Build VS Code Release",
+      "configurePreset": "vscode-release"
+    },
+    {
+      "name": "vscode-debug-appleclang",
+      "displayName": "Build VS Code Debug AppleClang",
+      "configurePreset": "vscode-debug-appleclang"
+    },
+    {
+      "name": "vscode-release-appleclang",
+      "displayName": "Build VS Code Release AppleClang",
+      "configurePreset": "vscode-release-appleclang"
+    },
+    {
+      "name": "xcode-debug",
+      "displayName": "Build Xcode Debug",
+      "configurePreset": "xcode",
+      "configuration": "Debug",
+      "targets": [
+        "main"
+      ]
+    },
+    {
+      "name": "xcode-release",
+      "displayName": "Build Xcode Release",
+      "configurePreset": "xcode",
+      "configuration": "Release",
+      "targets": [
+        "main"
+      ]
+    }
+  ]
+}

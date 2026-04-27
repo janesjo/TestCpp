@@ -4,5 +4,13 @@
 			"path": ".."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"cmake.useCMakePresets": "always",
+		"cmake.configurePreset": "vscode-debug",
+		"cmake.buildPreset": "vscode-debug",
+		"cmake.buildTarget": "main",
+		"cmake.debugConfig": {
+			"cwd": "${workspaceFolder}"
+		}
+	}
 }

@@ -2,28 +2,42 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Build Debug (make)",
+      "label": "CMake: configure vscode-debug",
       "type": "shell",
-      "command": "make",
-      "args": ["debug"],
+      "command": "cmake",
+      "args": [
+        "--preset",
+        "vscode-debug"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "CMake: build main",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "--preset",
+        "vscode-debug",
+        "--target",
+        "main"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "group": {
         "kind": "build",
         "isDefault": true
       },
-      "problemMatcher": ["$gcc"]
-    },
-    {
-      "label": "Build Release (make)",
-      "type": "shell",
-      "command": "make",
-      "args": ["release"],
-      "problemMatcher": ["$gcc"]
-    },
-    {
-      "label": "Clean (make clean)",
-      "type": "shell",
-      "command": "make",
-      "args": ["clean"]
+      "dependsOn": [
+        "CMake: configure vscode-debug"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ]
     }
   ]
 }
