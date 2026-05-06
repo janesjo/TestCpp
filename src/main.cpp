@@ -4,6 +4,7 @@
 //
 //  Created by Jonathan Janesjo on 2026-04-07.
 //
+//
 
 #include <cerrno>
 #include <cstring>
@@ -42,7 +43,7 @@ void messageSender(unsigned short port) {
 
 void messageFunction(SocketHandle receiver, std::promise<std::string>&& messagePromise) {
   std::string receivedMessage;
-  std::cout << "Waiting to receive hello message..." << std::endl;
+  std::cout << "Waiting to receive UDP hello message..." << std::endl;
   if (receiveUdpMessage(receiver, receivedMessage)) {
     std::cout << "Received UDP message: " << receivedMessage << std::endl;
   } else {

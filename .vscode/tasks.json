@@ -38,6 +38,36 @@
       "problemMatcher": [
         "$gcc"
       ]
+    },
+    {
+      "label": "CMake: build all configurations",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-P",
+        "cmake/BuildAllConfigurations.cmake"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
+    {
+      "label": "CMake: clean all configurations",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-P",
+        "cmake/CleanAllConfigurations.cmake"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ]
     }
   ]
 }
