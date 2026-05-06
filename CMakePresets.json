@@ -90,9 +90,25 @@
       "configurePreset": "vscode-debug"
     },
     {
+      "name": "clean-vscode-debug",
+      "displayName": "Clean VS Code Debug",
+      "configurePreset": "vscode-debug",
+      "targets": [
+        "clean"
+      ]
+    },
+    {
       "name": "vscode-release",
       "displayName": "Build VS Code Release",
       "configurePreset": "vscode-release"
+    },
+    {
+      "name": "clean-vscode-release",
+      "displayName": "Clean VS Code Release",
+      "configurePreset": "vscode-release",
+      "targets": [
+        "clean"
+      ]
     },
     {
       "name": "vscode-debug-appleclang",
@@ -100,9 +116,25 @@
       "configurePreset": "vscode-debug-appleclang"
     },
     {
+      "name": "clean-vscode-debug-appleclang",
+      "displayName": "Clean VS Code Debug AppleClang",
+      "configurePreset": "vscode-debug-appleclang",
+      "targets": [
+        "clean"
+      ]
+    },
+    {
       "name": "vscode-release-appleclang",
       "displayName": "Build VS Code Release AppleClang",
       "configurePreset": "vscode-release-appleclang"
+    },
+    {
+      "name": "clean-vscode-release-appleclang",
+      "displayName": "Clean VS Code Release AppleClang",
+      "configurePreset": "vscode-release-appleclang",
+      "targets": [
+        "clean"
+      ]
     },
     {
       "name": "xcode-debug",
@@ -114,12 +146,30 @@
       ]
     },
     {
+      "name": "clean-xcode-debug",
+      "displayName": "Clean Xcode Debug",
+      "configurePreset": "xcode",
+      "configuration": "Debug",
+      "targets": [
+        "clean"
+      ]
+    },
+    {
       "name": "xcode-release",
       "displayName": "Build Xcode Release",
       "configurePreset": "xcode",
       "configuration": "Release",
       "targets": [
         "main"
+      ]
+    },
+    {
+      "name": "clean-xcode-release",
+      "displayName": "Clean Xcode Release",
+      "configurePreset": "xcode",
+      "configuration": "Release",
+      "targets": [
+        "clean"
       ]
     }
   ]

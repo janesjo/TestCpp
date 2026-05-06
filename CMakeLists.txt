@@ -14,16 +14,17 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type" FORCE)
 endif()
 
+file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
+)
+
 add_executable(main
-  src/main.cpp
-  src/network.cpp
-  src/network.h
+  ${PROJECT_SOURCES}
 )
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/src" PREFIX "Source Files" FILES
-  src/main.cpp
-  src/network.cpp
-  src/network.h
+  ${PROJECT_SOURCES}
 )
 
 target_include_directories(main PRIVATE
@@ -71,6 +72,7 @@ if(APPLE AND NOT CMAKE_CONFIGURATION_TYPES AND CMAKE_BUILD_TYPE STREQUAL "Debug"
   if(DSYMUTIL_EXECUTABLE)
     add_custom_command(TARGET main POST_BUILD
       COMMAND "${DSYMUTIL_EXECUTABLE}" "$<TARGET_FILE:main>" -o "$<TARGET_FILE:main>.dSYM"
+      BYPRODUCTS "${CMAKE_CURRENT_BINARY_DIR}/main.dSYM"
       VERBATIM
     )
   endif()
